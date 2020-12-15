@@ -34,16 +34,42 @@ function getToys(){
 function createFormHandler(e) {
   e.preventDefault()
   //grab all the value of the form inputs
-  debugger
+  // debugger
   const titleInput = document.querySelector("#input-title").value
   const descriptionInput = document.querySelector("#input-description").value
-  const priceInput = document.querySelector("#input-price").value
-  const categoryId = document.querySelector("#categories").value
-  postFetch(titleInput, descriptionInput, priceInput, categoryId)
+  const priceInput = parseFloat(document.querySelector("#input-price").value)
+  const urlInput = document.querySelector("#input-url").value
+  const categoryId = parseInt(document.querySelector("#categories").value)
+  postFetch(titleInput, descriptionInput, priceInput, urlInput, categoryId)
 }
 
-function postFetch(title, description, price, category_id) {
+function postFetch(title, description, price, url, toy_category_id) {
+  //build toy object outside of fetch
+  const bodyData = {title, description, price, url, toy_category_id};
+  fetch(toysEndPoint,{
   
+  method: 'POST', 
+  headers: {'Content-Type': 'application/json'},
+  body: JSON.stringify(bodyData),
+  
+})
+
+.then(response => response.json())
+.then(toy => {
+  console.log(toy);
+  // const toyData = toy.attributes
+  //render JSON response
+  const toyMarkup = `
+    <div data-id=${toy.id}>
+      <h3>${toy.title}</h3>
+      <p>${toy.description}</p>
+      <button data-id=${toy.id}>edit</button>
+    </div>
+    <br><br>`;
+    document.querySelector('#toy-container').innerHTML +=toyMarkup;
+
+})
+// debugger
 }
 
 fetch("http://localhost:3000/api/v1/toy_categories")
