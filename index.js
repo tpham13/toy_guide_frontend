@@ -5,6 +5,9 @@ const toysEndPoint = "http://localhost:3000/api/v1/toys"
 //fetch('/toy_categories)
 document.addEventListener("DOMContentLoaded", () => {
   getToys()
+
+  const createToyForm = document.querySelector("#create-toy-form")
+  createToyForm.addEventListener("submit", (e) => createFormHandler(e))
 });
 
 //making GET request
@@ -27,8 +30,21 @@ function getToys(){
     })
   }
 
+//POST request
+function createFormHandler(e) {
+  e.preventDefault()
+  //grab all the value of the form inputs
+  debugger
+  const titleInput = document.querySelector("#input-title").value
+  const descriptionInput = document.querySelector("#input-description").value
+  const priceInput = document.querySelector("#input-price").value
+  const categoryId = document.querySelector("#categories").value
+  postFetch(titleInput, descriptionInput, priceInput, categoryId)
+}
 
-//Build Todolist objects, store them in this.collection, render them and add them to this.container() DOM element
+function postFetch(title, description, price, category_id) {
+  
+}
 
 fetch("http://localhost:3000/api/v1/toy_categories")
 .then(function(response) {
