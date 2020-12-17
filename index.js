@@ -1,12 +1,12 @@
 //declare enpoints
 const toysEndPoint = "http://localhost:3000/api/v1/toys"
-//List ToyCategory.all()
 
-//fetch('/toy_categories)
 document.addEventListener("DOMContentLoaded", () => {
+  //when contentloaded (event), what kind of fetch do we need to make? (ans.: GET)
   getToys()
 
   const createToyForm = document.querySelector("#create-toy-form")
+  //listen for the event "submit", then handle the inputs from the form
   createToyForm.addEventListener("submit", (e) => createFormHandler(e))
 });
 
@@ -16,23 +16,21 @@ function getToys(){
   .then(response => response.json())
   .then(toys => {
     // Use this data inside of `json` to do DOM manipulation
+      console.log(toys);
       toys.data.forEach(toy => {
-        const toyMarkup = `
-        <div data-id=${toy.id}>
-          <h3>${toy.attributes.title}</h3>
-          <p>${toy.attributes.toy_category.name}</p>
-          <button data-id=${toy.id}>edit</button>
-        </div>
-        <br><br>`;
-        //we use the #toy-container b/c it's an id in html
-        document.querySelector('#toy-container').innerHTML +=toyMarkup
+        // debugger
+        renderToy(toy)
+        //find the #toy-container and update the innerhtml
       })
+      
     })
+    .catch(err => console.log(err))
   }
 
 //POST request
 function createFormHandler(e) {
   e.preventDefault()
+  console.log(e);
   //grab all the value of the form inputs
   // debugger
   const titleInput = document.querySelector("#input-title").value
@@ -45,31 +43,41 @@ function createFormHandler(e) {
 
 function postFetch(title, description, price, url, toy_category_id) {
   //build toy object outside of fetch
-  const bodyData = {title, description, price, url, toy_category_id};
+  const bodyData = {title, description, price, url, toy_category_id}
   fetch(toysEndPoint,{
-  
-  method: 'POST', 
-  headers: {'Content-Type': 'application/json'},
-  body: JSON.stringify(bodyData),
+    method: 'POST', 
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify(bodyData)
   
 })
-
 .then(response => response.json())
-.then(toy => {
-  console.log(toy);
-  // const toyData = toy.attributes
-  //render JSON response
+//put catch at the end of a fetch here:
+// .catch(err => console.log(err))
+.then(toy => { 
+  // debugger
+    // console.log(toy);
+    // const toyData = toy.data
+    //render JSON response
+    renderToy(toy.data)
+    console.log(toy);
+})
+
+// .catch(err => console.log(err))
+// debugger
+}
+
+function renderToy(toy){
+  //if there's issue, it's due to innerhtml. 
+  //this is a string
+  //use createlement then append to the div then render append div to the toy container. this way we can add eventlistener direxctly to the button
   const toyMarkup = `
     <div data-id=${toy.id}>
-      <h3>${toy.title}</h3>
-      <p>${toy.description}</p>
+      <h3>${toy.attributes.title}</h3>      
+      <p>${toy.attributes.toy_category.name}<p>
       <button data-id=${toy.id}>edit</button>
     </div>
     <br><br>`;
     document.querySelector('#toy-container').innerHTML +=toyMarkup;
-
-})
-// debugger
 }
 
 fetch("http://localhost:3000/api/v1/toy_categories")
