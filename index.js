@@ -62,7 +62,7 @@ function postFetch(title, description, price, url, toy_category_id) {
     console.log(toy);
 })
 
-// .catch(err => console.log(err))
+.catch(err => console.log(err))
 // debugger
 }
 
