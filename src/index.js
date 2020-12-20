@@ -61,7 +61,8 @@ function postFetch(title, description, price, url, toy_category_id) {
     renderToy(toy.data)
     console.log(toy);
 })
-
+//catch the error when one input is empty, 
+//but the error doesn't show on the browser, why? 
 .catch(err => console.log(err))
 // debugger
 }
