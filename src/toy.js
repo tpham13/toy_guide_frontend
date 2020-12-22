@@ -11,9 +11,27 @@ class Toy {
          this.description = toyAttributes.description
          this.price = toyAttributes.price
          this.url = toyAttributes.url
+         this.toy_category = toyAttributes.toy_category
         Toy.all.push(this);
-        debugger
+        
     }
-
+    renderToys(){
+        //if there's issue, it's due to innerhtml. 
+        //this is a string
+        //use createlement then append to the div then render append div to the toy container. this way we can add eventlistener direxctly to the button
+        // debugger
+        return `
+          <div data-id=${this.id}>
+            <h3>${this.title}</h3>  
+            <p>${this.description}</p>    
+            <p>${this.price}</p>
+            <p>${this.url}</p>
+            <h4>${this.toy_category.name}</h4>
+            <button data-id=${this.id}>edit</button>
+          </div>
+          <br><br>`;
+          
+      }
+    
 }
 Toy.all = [];
