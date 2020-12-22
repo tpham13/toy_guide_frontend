@@ -18,6 +18,8 @@ function getToys(){
     // Use this data inside of `json` to do DOM manipulation
       console.log(toys);
       toys.data.forEach(toy => {
+        //  debugger
+        let newToy = new Toy(toy, toy.attributes)
         // debugger
         renderToy(toy)
         //find the #toy-container and update the innerhtml
