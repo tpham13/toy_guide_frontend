@@ -24,7 +24,7 @@ class Toy {
           <div data-id=${this.id}>
             <h3>${this.title}</h3>  
             <p>${this.description}</p>    
-            <p>${this.price}</p>
+            <p>$ ${this.price}</p>
             <p>${this.url}</p>
             <h4>${this.toy_category.name}</h4>
             <button data-id=${this.id}>edit</button>
