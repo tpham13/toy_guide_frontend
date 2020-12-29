@@ -1,5 +1,8 @@
+const app = new AppContainer
+app.getToys()
 //declare enpoints
-const toysEndPoint = "http://localhost:3000/api/v1/toys"
+// insert toysEndPoint to AppContainer
+// // const toysEndPoint = "http://localhost:3000/api/v1/toys"
 
 document.addEventListener("DOMContentLoaded", () => {
   //when contentloaded (event), what kind of fetch do we need to make? (ans.: GET)
