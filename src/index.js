@@ -1,12 +1,12 @@
 const app = new AppContainer
-app.getToys()
+const getToyData = app.getToys()
 //declare enpoints
 // insert toysEndPoint to AppContainer
 // // const toysEndPoint = "http://localhost:3000/api/v1/toys"
 
 document.addEventListener("DOMContentLoaded", () => {
   //when contentloaded (event), what kind of fetch do we need to make? (ans.: GET)
-  getToys()
+  getToyData
 
   const createToyForm = document.querySelector("#create-toy-form")
   //listen for the event "submit", then handle the inputs from the form
@@ -14,20 +14,20 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 //making GET request
-function getToys(){
-  fetch(toysEndPoint)
-  .then(response => response.json())
-  .then(toys => {
-    // Use this data inside of `json` to do DOM manipulation
-      console.log(toys);
-      toys.data.forEach(toy => {
-        let newToy = new Toy(toy, toy.attributes)
-        document.querySelector('#toy-container').innerHTML +=newToy.renderToys();
-      })
+// function getToys(){
+//   fetch(toysEndPoint)
+//   .then(response => response.json())
+//   .then(toys => {
+//     // Use this data inside of `json` to do DOM manipulation
+//       console.log(toys);
+//       toys.data.forEach(toy => {
+//         let newToy = new Toy(toy, toy.attributes)
+//         document.querySelector('#toy-container').innerHTML +=newToy.renderToys();
+//       })
       
-    })
-    .catch(err => console.log(err))
-  }
+//     })
+//     .catch(err => console.log(err))
+//   }
 
 //POST request
 function createFormHandler(e) {

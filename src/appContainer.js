@@ -12,10 +12,10 @@ class AppContainer {
         .then(toys => {
         //   // Use this data inside of `json` to do DOM manipulation
             console.log(toys);
-        //     toys.data.forEach(toy => {
-        //       let newToy = new Toy(toy, toy.attributes)
-        //       document.querySelector('#toy-container').innerHTML +=newToy.renderToys();
-        //     })
+            toys.data.forEach(toy => {
+              let newToy = new Toy(toy, toy.attributes)
+              document.querySelector('#toy-container').innerHTML +=newToy.renderToys();
+            })
             
           })
           .catch(err => console.log(err))
