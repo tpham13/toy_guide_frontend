@@ -1,17 +1,20 @@
 const app = new AppContainer
 const getToyData = app.getToys()
+const bindEvents = app.bindEventListeners();
 //declare enpoints
 // insert toysEndPoint to AppContainer
 // // const toysEndPoint = "http://localhost:3000/api/v1/toys"
 
-document.addEventListener("DOMContentLoaded", () => {
-  //when contentloaded (event), what kind of fetch do we need to make? (ans.: GET)
-  getToyData
+// document.addEventListener("DOMContentLoaded", () => {
+//   //when contentloaded (event), what kind of fetch do we need to make? (ans.: GET)
+//   bindEvents
+//   getToyData
+  
 
-  const createToyForm = document.querySelector("#create-toy-form")
-  //listen for the event "submit", then handle the inputs from the form
-  createToyForm.addEventListener("submit", (e) => createFormHandler(e))
-});
+//   const createToyForm = document.querySelector("#create-toy-form")
+//   //listen for the event "submit", then handle the inputs from the form
+//   createToyForm.addEventListener("submit", (e) => createFormHandler(e))
+// });
 
 //making GET request
 // function getToys(){
