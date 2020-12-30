@@ -1,5 +1,5 @@
 const app = new AppContainer
-const getToyData = app.getToys()
+// const getToyData = app.getToys()
 const bindEvents = app.bindEventListeners();
 //declare enpoints
 // insert toysEndPoint to AppContainer
@@ -35,7 +35,7 @@ const bindEvents = app.bindEventListeners();
 //POST request
 function createFormHandler(e) {
   e.preventDefault()
-  console.log(e);
+  // console.log(e);
   //grab all the value of the form inputs
   const titleInput = document.querySelector("#input-title").value
   const descriptionInput = document.querySelector("#input-description").value
@@ -76,6 +76,6 @@ fetch("http://localhost:3000/api/v1/toy_categories")
 })
 .then(function(json){
   // Use this data inside of `json` to do DOM manipulation
-  console.log(json)
+  // console.log(json)
 });
 
