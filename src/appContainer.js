@@ -14,23 +14,12 @@ class AppContainer {
         
     };
 
+    //add html to append getToysLessThan
     getToysLessThan() {
         console.log('get toy less than...')
         let toysLessThanThirtyDollar = AppContainer.toys.filter(function (e) {
             return e.price < 30;
         });
-        // console.log(toysLessThanThirtyDollar);
-        
-    //     let toysLessThanThirtyDollar = [];
-    //         for (let i = 0; i < this.toys.length; i++) {
-    //             debugger
-    //             if (this.toys[i].price >= 30) {
-    //                 toysLessThanThirtyDollar.push(this.toys[i]);
-    //             }
-            
-    //         return toysLessThanThirtyDollar;
-    // }
-    // console.log(toysLessThanThirtyDollar);
 
     }
     getToys(){
