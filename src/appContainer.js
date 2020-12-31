@@ -7,11 +7,11 @@ class AppContainer {
     
     
     bindEventListeners() { 
-        const button = document.getElementById("getToys");
+        const button = document.getElementById("get selected toys button");
         //bind is use here so that everytime we call 'this' it's refer to the class itself
-        
-        button.addEventListener('click', this.getToys())
-        
+        button.addEventListener('click', this.displaySelectedToys)
+        document.addEventListener("", this.getToys())
+        //  button.addEventListener('click', this.displaySelectedToys())
     };
 
     //add html to append getToysLessThan
@@ -22,6 +22,36 @@ class AppContainer {
         });
 
     }
+
+    displaySelectedToys() {
+        console.log('display selected toy')
+        const getSelectedToyButton = document.getElementById('get selected toys button');
+        const selectBirthToOneToy = document.getElementById('birth to one');
+        
+        getSelectedToyButton.onclick = (e) => {
+            
+            e.preventDefault();
+            const selectedValues = [].filter
+            
+                .call(selectBirthToOneToy.options, option => option.selected)
+                .map(option => option.text);
+                debugger
+            
+            const toyMarkup = `
+                <div data-id=${AppContainer}>
+                    <h3>${selectedValues}</h3>
+                </div>`
+                console.log(toyMarkup)
+            return toyMarkup;
+        };
+        // const toyLi = document.createElement("li");
+        // const showToy = document.createTextNode("Coffee");
+        // toyLi.appendChild(showToy);
+        // document.getElementById("show toy").appendChild(toyLi);
+        //when select toy button is clicked, toys content will be displayed on page 
+
+    };
+
     getToys(){
         fetch(this.toysEndPoint)
         .then(response => response.json())
@@ -46,6 +76,7 @@ class AppContainer {
         const learningAndSchoolSelect = document.getElementById('learning and school');
         const puzzleSelect = document.getElementById('puzzle');
         AppContainer.toys.forEach(toy => {
+            // console.log(toy)
             
             const option = document.createElement('option');
             option.innerText = toy.title;
