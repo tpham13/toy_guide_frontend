@@ -16,6 +16,30 @@ class Toy {
         // debugger
         
     }
+
+    getSelectedToys() {
+      // const toys = [];
+      // const selectedToy = new GetSelectedToy(toys);
+      console.log('display selected toy')
+      const getSelectedToyButton = document.getElementById('get selected toys button');
+      const selectBirthToOneToy = document.getElementById('birth to one');
+      
+      getSelectedToyButton.onclick = (e) => {
+          
+          e.preventDefault();
+          const selectedValues = [].filter
+          
+              .call(selectBirthToOneToy.options, option => option.selected)
+              .map(option => option.text);
+
+      const li = document.createElement('li')
+      const ul = document.createElement('ul')
+      const p = document.createElement('p')
+
+      p.innerHTML = `${this.title}, ${this.description}, ${this.price}, ${this.url}`
+      
+    }
+  }
 //     renderToys(){
 //         //if there's issue, it's due to innerhtml. 
 //         //this is a string
