@@ -15,7 +15,7 @@ class Category {
    </ul>
     */
 
-    static category() {
+    static toyCategory() {
         return this.c ||= document.querySelector("#categories")
     }
 
@@ -30,21 +30,61 @@ class Category {
     return fetch("http://localhost:3000/api/v1/toy_categories", {
         headers: { 
             "Accept": "application/json",
-            "Constent-Type": "application/json"
+            "Content-Type": "application/json"
         }
     })
-    .then(res => {
-        if(res.ok) {
-            return res.json() //returns a promise for body content parsed as JSON
-        } else {
-            return res.text().then(error => Promise.reject(error)) //return a reject promise so we skip the following then and go to catch 
-        }
+    /*=> function is used here and the next .then is b/c we're defining function that we want to 
+    have the same context as the function static all(). If we console.log(this) inside this function 
+    this is reference to Category class
+    */
+        .then(res => {
+            if(res.ok) {
+                return res.json() //returns a promise for body content parsed as JSON
+            } else {
+                return res.text().then(error => Promise.reject(error)) //return a reject promise so we skip the following then and go to catch 
+            }
     })
-    .then(todoListArray => {
-        debugger
-    })
-}
+        .then(toyCategoryArray => {
+            /*we want to store the new collection that we created inside the class variable this.collection
+            so we can access/call it later */
+            this.collection = toyCategoryArray.map(attrs => new Toy_Category(attrs))
+            // console.log(this)
+            // debugger
+        })
+    }
 
+    /*
+    toyCategory.render() will create an li element and assign it to this.element. 
+    It will then fill the element with contents looking like below html:
+    <li class="my-2 px-4 bg-green-200 grid grid-cols-12 sm:grid-cols-6">
+          <a href="#" class="py-4 col-span-10 sm:col-span-4">Category 1</a>
+          <a href="#" class="my-4 text-right"><i class="fa fa-pencil-alt"></i></a>
+          <a href="#" class="my-4 text-right"><i class="fa fa-trash-alt"></i></a>
+        </li>
+    */
+    render() {
+        //we use ||= here b/c render will get call more than once
+        this.element ||= document.createElement('li');
+        this.element.class = "my-2 px-4 bg-green-200 grid grid-cols-12 sm:grid-cols-6"
+        
+        this.nameLink ||= document.createElement('a');
+        this.nameLink.class = "py-4 col-span-10 sm:col-span-4";
+        this.nameLink.textContent = this.name;
+
+        this.editLink ||= document.createElement('a');
+        this.editLink.class = "my-4 text-right";
+        this.editLink.innerHTML = `<i class="fa fa-pencil-alt"></i>`;
+
+        this.deleteLink ||= document.createElement('a');
+        this.deleteLink.class = "my-4 text-right";
+        this.deleteLink.innerHTML = `<i class="fa fa-trash-alt"></i>`;
+
+        this.element.append(this.nameLink, this.editLink, this.deleteLink);
+
+        return this.element;
+
+
+    }
 }
 
 class Toys {
