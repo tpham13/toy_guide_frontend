@@ -52,26 +52,21 @@ class ToyCategory {
             so we can access/call it later */
             this.collection = toyCategoryArray.map(attrs => new ToyCategory(attrs))
             let renderedToyCategories = this.collection.map(toyCategory => toyCategory.render())
-            this.container().append(renderedToyCategories);
+            //spread operator is used here to render separated element instead of rendering an array
+            this.container().append(...renderedToyCategories);
             // console.log(this)
-            
-            // debugger
+            /*we might use this collection again later so we'll return this.collection here 
+            to return a promise for that
+            */
+            return this.collection
             
         })
         
     }
 
-    /*
-    toyCategory.render() will create an li element and assign it to this.element. 
-    It will then fill the element with contents looking like below html:
-    <li class="my-2 px-4 bg-green-200 grid grid-cols-12 sm:grid-cols-6">
-          <a href="#" class="py-4 col-span-10 sm:col-span-4">Category 1</a>
-          <a href="#" class="my-4 text-right"><i class="fa fa-pencil-alt"></i></a>
-          <a href="#" class="my-4 text-right"><i class="fa fa-trash-alt"></i></a>
-        </li>
-    */
-    render() {
-        debugger
+    render(){
+        
+        console.log('in render')
         //we use ||= here b/c render will get call more than once
         this.element ||= document.createElement('li');
         this.element.classList.add(..."my-2 px-4 bg-green-200 grid grid-cols-12 sm:grid-cols-6".split(" "));
@@ -87,13 +82,23 @@ class ToyCategory {
         this.deleteLink ||= document.createElement('a');
         this.deleteLink.classList.add(..."my-4 text-right".split(" "));
         this.deleteLink.innerHTML = `<i class="fa fa-trash-alt"></i>`;
-
+    
         this.element.append(this.nameLink, this.editLink, this.deleteLink);
-
         return this.element;
+    }
+    /*
+    toyCategory.render() will create an li element and assign it to this.element. 
+    It will then fill the element with contents looking like below html:
+    <li class="my-2 px-4 bg-green-200 grid grid-cols-12 sm:grid-cols-6">
+          <a href="#" class="py-4 col-span-10 sm:col-span-4">Category 1</a>
+          <a href="#" class="my-4 text-right"><i class="fa fa-pencil-alt"></i></a>
+          <a href="#" class="my-4 text-right"><i class="fa fa-trash-alt"></i></a>
+        </li>
+    */
+    
 
-    };
 }
+
 
 class Toys {
     constructor(attributes) {
