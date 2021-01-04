@@ -1,3 +1,8 @@
+console.log("in toy js")
+
+
+
+//----------------------------------------------------------------
 // console.log("in toy js")
 // //to get the list of toy, we need to send in the toy params from the back-end in here
 // //the params key name has to look exactly like the back end

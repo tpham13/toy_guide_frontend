@@ -1,8 +1,62 @@
+console.log('in appContainer')
 
+class Category {
+    /*
+    new Category{id: 1, name: "Birth to One"}
+    */
+   constructor(attributes) {
+       let whitelist = ["id", "name", "active"]
+       whitelist.forEach(attr => this[attr] = attributes[attr])
+   }
 
+   /*
+   Category.list() returns a reference to this DOM node:
+   <ul id="lists" class="list-none"
+   </ul>
+    */
 
+    static category() {
+        return this.c ||= document.querySelector("#categories")
+    }
 
+    /*
+    Category.all() will return a promise for all of the category objects that 
+    we get from fetching to /categories. This collection will be stored locally 
+    in Category.collection so we can reference it after the initial call to Category.all()
+    */
 
+   static all() {
+    // console.log('.all() was called')
+    return fetch("http://localhost:3000/api/v1/toy_categories", {
+        headers: { 
+            "Accept": "application/json",
+            "Constent-Type": "application/json"
+        }
+    })
+    .then(res => {
+        if(res.ok) {
+            return res.json() //returns a promise for body content parsed as JSON
+        } else {
+            return res.text().then(error => Promise.reject(error)) //return a reject promise so we skip the following then and go to catch 
+        }
+    })
+    .then(todoListArray => {
+        debugger
+    })
+}
+
+}
+
+class Toys {
+    constructor(attributes) {
+        let whitelist = ["id", "title", "description", "price", "url"]
+        whiltelist.forEach(attr => this[attr] = attributes[attr])
+    }
+
+    static container() {
+        return this.c ||= document.querySelector("#toys")
+    }
+}
 
 
 
