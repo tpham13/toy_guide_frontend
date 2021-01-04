@@ -1,6 +1,6 @@
 console.log('in appContainer')
 
-class Category {
+class ToyCategory {
     /*
     new Category{id: 1, name: "Birth to One"}
     */
@@ -10,14 +10,17 @@ class Category {
    }
 
    /*
-   Category.list() returns a reference to this DOM node:
-   <ul id="lists" class="list-none"
-   </ul>
+   Category.container() returns a reference to this DOM node:
+    <section id="categoriesContainer" class="px-4 bg-blue-100 sm:min-h-screen rounded-md shadow">
+        <h1 class="text-2xl semibold border-b-4 border-blue">Toy Categories</h1>
+        <ul id="toy categories" class="list-none">
+        </ul>
+    </section>
     */
-
-    static toyCategory() {
-        return this.c ||= document.querySelector("#categories")
+    static container() {
+        return this.c ||= document.querySelector("#toyCategories")
     }
+    
 
     /*
     Category.all() will return a promise for all of the category objects that 
@@ -27,12 +30,12 @@ class Category {
 
    static all() {
     // console.log('.all() was called')
-    return fetch("http://localhost:3000/api/v1/toy_categories", {
-        headers: { 
-            "Accept": "application/json",
-            "Content-Type": "application/json"
-        }
-    })
+        return fetch("http://localhost:3000/api/v1/toy_categories", {
+            headers: { 
+                "Accept": "application/json",
+                "Content-Type": "application/json"
+            }
+        })
     /*=> function is used here and the next .then is b/c we're defining function that we want to 
     have the same context as the function static all(). If we console.log(this) inside this function 
     this is reference to Category class
@@ -43,14 +46,19 @@ class Category {
             } else {
                 return res.text().then(error => Promise.reject(error)) //return a reject promise so we skip the following then and go to catch 
             }
-    })
+        })
         .then(toyCategoryArray => {
             /*we want to store the new collection that we created inside the class variable this.collection
             so we can access/call it later */
-            this.collection = toyCategoryArray.map(attrs => new Toy_Category(attrs))
+            this.collection = toyCategoryArray.map(attrs => new ToyCategory(attrs))
+            let renderedToyCategories = this.collection.map(toyCategory => toyCategory.render())
+            this.container().append(renderedToyCategories);
             // console.log(this)
+            
             // debugger
+            
         })
+        
     }
 
     /*
@@ -63,28 +71,28 @@ class Category {
         </li>
     */
     render() {
+        debugger
         //we use ||= here b/c render will get call more than once
         this.element ||= document.createElement('li');
-        this.element.class = "my-2 px-4 bg-green-200 grid grid-cols-12 sm:grid-cols-6"
+        this.element.classList.add(..."my-2 px-4 bg-green-200 grid grid-cols-12 sm:grid-cols-6".split(" "));
         
         this.nameLink ||= document.createElement('a');
-        this.nameLink.class = "py-4 col-span-10 sm:col-span-4";
+        this.nameLink.classList.add(..."py-4 col-span-10 sm:col-span-4".split(" "));
         this.nameLink.textContent = this.name;
 
         this.editLink ||= document.createElement('a');
-        this.editLink.class = "my-4 text-right";
+        this.editLink.classList.add(..."my-4 text-right".split(" "));
         this.editLink.innerHTML = `<i class="fa fa-pencil-alt"></i>`;
 
         this.deleteLink ||= document.createElement('a');
-        this.deleteLink.class = "my-4 text-right";
+        this.deleteLink.classList.add(..."my-4 text-right".split(" "));
         this.deleteLink.innerHTML = `<i class="fa fa-trash-alt"></i>`;
 
         this.element.append(this.nameLink, this.editLink, this.deleteLink);
 
         return this.element;
 
-
-    }
+    };
 }
 
 class Toys {
