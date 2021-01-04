@@ -24,25 +24,6 @@ class AppContainer {
 
     }
 
-    // getSelectedToys() {
-    //     fetch(this.toysEndPoint)
-    //     .then(response => response.json())
-    //     .then(toys => {
-    //     //   // Use this data inside of `json` to do DOM manipulation
-    //         // console.log(toys);
-    //         toys.data.forEach(toy => {
-    //           let newToy = new Toy(toy, toy.attributes)
-    //           //when console.log(AppContainer.toys) here, we see that objects are adding to the array
-    //         //   document.querySelector('#toy-container').innerHTML +=newToy.renderToys();
-    //         });
-    //         this.renderSelectedToy();
-            
-    //       })
-    // }
-    
-    // renderSelectedToy() {
-
-    // }
     getSelectedToys() {
         // debugger
         // const toys = [];
