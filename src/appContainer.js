@@ -64,6 +64,56 @@ class ToyCategory {
         
     }
 
+    /*
+    ToyCategory.create(formData) will make a fetch request to create a 
+    new Toy Category in our database. 
+    It will use a sucessful response to create a new Todo List client side and store it in this.collection. 
+    It will also call render() on it to create the DOM element we'll suse to represent it in our web page. 
+    Finally it will add that DOM node to ToyCategory.container(). 
+    It will return a promise for ToyCategory object that was created
+    */
+
+    static create(formData) {
+        //when sending a post request, it takes in a 2nd argument
+        return fetch("http://localhost:3000/api/v1/toy_categories", {
+            method: "Post",
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json"
+            }, 
+            /*when we send info to the server, we don't want to send object, we want to send the string. 
+            formData is an object, and JSON.stringify method turns it into the string format in JS object notation and that allow that 
+            string to be parse in Ruby when it gt to the server and then use as a hash to create a new Toy Category on the server side.
+            Then we convert it into a string again before it send back to the client side.
+            */
+            body: JSON.stringify({toy_category: formData})
+        })
+            .then(res => {
+                if(res.ok) {
+                    return res.json() //returns a promise for body content parsed as JSON
+                } else {
+                    return res.text().then(error => Promise.reject(error)) //return a reject promise so we skip the following then and go to catch 
+                }
+            })
+            .then(toyCategoryAttributes => {
+                let toyCategory = new ToyCategory(toyCategoryAttributes)
+                this.collection.push(toyCategory);
+                this.container().appendChild(toyCategory.render())
+                return toyCategory;
+
+            })
+    }
+
+
+    /*
+    toyCategory.render() will create an li element and assign it to this.element. 
+    It will then fill the element with contents looking like below html:
+    <li class="my-2 px-4 bg-green-200 grid grid-cols-12 sm:grid-cols-6">
+          <a href="#" class="py-4 col-span-10 sm:col-span-4">Category 1</a>
+          <a href="#" class="my-4 text-right"><i class="fa fa-pencil-alt"></i></a>
+          <a href="#" class="my-4 text-right"><i class="fa fa-trash-alt"></i></a>
+        </li>
+    */
     render(){
         
         console.log('in render')
@@ -86,15 +136,7 @@ class ToyCategory {
         this.element.append(this.nameLink, this.editLink, this.deleteLink);
         return this.element;
     }
-    /*
-    toyCategory.render() will create an li element and assign it to this.element. 
-    It will then fill the element with contents looking like below html:
-    <li class="my-2 px-4 bg-green-200 grid grid-cols-12 sm:grid-cols-6">
-          <a href="#" class="py-4 col-span-10 sm:col-span-4">Category 1</a>
-          <a href="#" class="my-4 text-right"><i class="fa fa-pencil-alt"></i></a>
-          <a href="#" class="my-4 text-right"><i class="fa fa-trash-alt"></i></a>
-        </li>
-    */
+    
     
 
 }
