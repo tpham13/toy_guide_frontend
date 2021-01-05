@@ -6,6 +6,15 @@ document.addEventListener('DOMContentLoaded', function(e) {
      ToyCategory.all();
 })
 
+document.addEventListener('click', function(e) {
+    let target = e.target;
+
+    if(target.matches(".selectToyCategory")) {
+        // console.log('selectToyCategory', target.dataset.toyCategoryId)
+        let toyCategory = ToyCategory.findById(target.dataset.toyCategory)
+        toyCategory.show()
+    }
+})
 document.addEventListener('submit', function(e) {
     
     let target = e.target;
@@ -24,3 +33,5 @@ document.addEventListener('submit', function(e) {
         // debugger
     }
 }) 
+
+

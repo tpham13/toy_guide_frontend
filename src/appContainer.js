@@ -63,7 +63,12 @@ class ToyCategory {
         })
         
     }
-
+    /*
+    ToyCategory.findById(id) => accepts an id as an argument and returns the todoList matching that id.
+    */
+    static findById(id) {
+        return this.collection.find(toyCategory => toyCategory.id == id);
+    }
     /*
     ToyCategory.create(formData) will make a fetch request to create a 
     new Toy Category in our database. 
@@ -129,6 +134,7 @@ class ToyCategory {
         this.nameLink ||= document.createElement('a');
         this.nameLink.classList.add(..."py-4 col-span-10 sm:col-span-4 selectToyCategory".split(" "));
         this.nameLink.textContent = this.name;
+        this.nameLink.dataset.toyCategoryId = this.id;
 
         this.editLink ||= document.createElement('a');
         this.editLink.classList.add(..."my-4 text-right".split(" "));
