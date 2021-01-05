@@ -21,7 +21,6 @@ document.addEventListener('submit', function(e) {
         })
         
         ToyCategory.create(formData);
-        debugger
+        // debugger
     }
-  
 }) 

@@ -127,7 +127,7 @@ class ToyCategory {
         this.element.classList.add(..."my-2 px-4 bg-green-200 grid grid-cols-12 sm:grid-cols-6".split(" "));
         
         this.nameLink ||= document.createElement('a');
-        this.nameLink.classList.add(..."py-4 col-span-10 sm:col-span-4".split(" "));
+        this.nameLink.classList.add(..."py-4 col-span-10 sm:col-span-4 selectToyCategory".split(" "));
         this.nameLink.textContent = this.name;
 
         this.editLink ||= document.createElement('a');
@@ -141,8 +141,6 @@ class ToyCategory {
         this.element.append(this.nameLink, this.editLink, this.deleteLink);
         return this.element;
     }
-    
-    
 
 }
 
