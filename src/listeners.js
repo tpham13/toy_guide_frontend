@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', function(e) {
 })
 
 document.addEventListener('submit', function(e) {
+    
     let target = e.target;
     if(target.matches('#newToyCategory')){
         //the form doesn't have an action attribute, so it will refresh
@@ -14,11 +15,13 @@ document.addEventListener('submit', function(e) {
         e.preventDefault();
         // console.log('submitted newToyCategory')
         let formData = {}
+        //the target of the event is always going to be the form that we submitted
         target.querySelectorAll('input').forEach(function(input) {
             formData[input.name] = input.value;
         })
-        ToyCategory.create(formData);
         
+        ToyCategory.create(formData);
+        debugger
     }
   
 }) 

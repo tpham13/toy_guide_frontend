@@ -76,7 +76,7 @@ class ToyCategory {
     static create(formData) {
         //when sending a post request, it takes in a 2nd argument
         return fetch("http://localhost:3000/api/v1/toy_categories", {
-            method: "Post",
+            method: "POST",
             headers: {
                 "Accept": "application/json",
                 "Content-Type": "application/json"
@@ -92,15 +92,20 @@ class ToyCategory {
                 if(res.ok) {
                     return res.json() //returns a promise for body content parsed as JSON
                 } else {
-                    return res.text().then(error => Promise.reject(error)) //return a reject promise so we skip the following then and go to catch 
+                    return res.text().then(errors => Promise.reject(errors)) //return a reject promise so we skip the following then and go to catch 
                 }
             })
             .then(toyCategoryAttributes => {
-                let toyCategory = new ToyCategory(toyCategoryAttributes)
+                let toyCategory = new ToyCategory(toyCategoryAttributes);
                 this.collection.push(toyCategory);
-                this.container().appendChild(toyCategory.render())
-                return toyCategory;
+                this.container().appendChild(toyCategory.render());
+                new FlashMessage({type: 'success', message: 'New toy category added successfully'})
 
+                return toyCategory;
+                debugger
+            })
+            .catch(error => {
+                new FlashMessage({type: 'error', message: error});
             })
     }
 
@@ -116,7 +121,7 @@ class ToyCategory {
     */
     render(){
         
-        console.log('in render')
+        // console.log('in render')
         //we use ||= here b/c render will get call more than once
         this.element ||= document.createElement('li');
         this.element.classList.add(..."my-2 px-4 bg-green-200 grid grid-cols-12 sm:grid-cols-6".split(" "));
@@ -153,7 +158,35 @@ class Toys {
     }
 }
 
-
+/*
+new Flashmessage({type: 'error, message: 'name is required'})
+this will create the flash message and fade it in. It'll also trigger a fade out in 5 sec.
+ */
+class FlashMessage {
+    constructor({type, message}){
+        this.message = message;
+        //type will be used to determine background color
+        //color will be red if it's an error type, blue if it's not
+        this.color = type == "error" ? 'bg-red-200' : 'bg-blue-100';
+        this.render();
+    }
+    //when it's a static message it can only be call on the Class itself, not an instance of a class
+    static container() {
+        return this.c ||= document.querySelector('#flash')
+    }
+    render() {
+        // debugger
+        this.toggleMessage();
+        //error function here makes sure that when this function gets executed, the context will be the same. So we'll still have access to the message and color. 
+        window.setTimeout(() => this.toggleMessage(), 5000);
+    }
+    toggleMessage() {
+        // console.log(this);
+        FlashMessage.container().textContent = this.message; 
+        FlashMessage.container().classList.toggle(this.color);
+        FlashMessage.container().classList.toggle('opacity-0');
+    }
+}
 
 
 
