@@ -31,7 +31,14 @@ document.addEventListener('submit', function(e) {
         
         ToyCategory.create(formData);
         // debugger
+    } else if(target.matches('#newToyForm')) {
+      e.preventDefault();
+      let formData = {};
+      target.querySelectorAll('input').forEach(function(input) {
+          formData[input.title] = input.value;
+      });
+      Toy.create(formData);
     }
-}) 
+})
 
 

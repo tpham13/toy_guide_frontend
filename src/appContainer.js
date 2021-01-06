@@ -83,7 +83,6 @@ class ToyCategory {
                 "Accept": "application/json",
                 "Content-Type": "application/json"
             }
-
         }) 
             .then(res => {
                 if(res.ok) {
@@ -97,6 +96,9 @@ class ToyCategory {
                 Toy.loadByToyCategory(id, toysAttributes)
                 this.render();
                 // debugger
+            })
+            .catch(err => {
+                return res.text().then(err => Promise.reject())
             })
 
     }
@@ -168,6 +170,7 @@ class ToyCategory {
         this.nameLink.textContent = this.name;
         this.nameLink.dataset.toyCategoryId = this.id;
 
+        
         this.editLink ||= document.createElement('a');
         this.editLink.classList.add(..."my-4 text-right".split(" "));
         this.editLink.innerHTML = `<i class="fa fa-pencil-alt"></i>`;
@@ -214,7 +217,33 @@ class Toy {
         this.container().append(...rendered)
         // debugger
     }
-    
+    /*
+    Toy.create(formData) => {
+        will make a fetch request using the form data to create a new task instance.
+        if the reponse is okay, we'll parse it as JSON and return that 
+        we'll use the data we parsed to create a new task instance, store it render it and add it to DOM at container().
+        if the reponse is not OK we'll return a rejected promise for the error and catch it with a callback which will display it in a FlashMessage.
+    }
+     */
+    static create(formData) {
+        if(!Toy.toyCategoryId) {
+            debugger
+            return new FlashMessage({type: 'error', message: "Please select a category before adding a new toy"});
+        } else {
+            formData.toy_category_id = ToyCategory.toyCategoryId
+        }
+        console.log(formData);
+        // return fetch('/toys', {
+        //     method: 'POST',
+        //     headers: {
+        //         "Accept": "application/json",
+        //         "Content-Type": "application/json"
+        //     }, 
+        //     body: JSON.stringify( {
+        //         toy: formData
+        //     })
+        // })
+    }
     /*
     li class="my-2 px-4 bg-green-200 grid grid-cols-12">
           <a span class="py-1 col-span-10">Toy 1</a>
@@ -226,12 +255,21 @@ class Toy {
        this.element = document.createElement('li')
        this.element.classList.add(..."my-2 px-4 bg-green-200 grid grid-cols-12".split(" "));
        
-       this.nameSpan ||= document.createElement('span');
-       this.nameSpan.classList.add(..."py-1 col-span-10".split(" "));
-       this.nameSpan.textContent = ({title: this.title, description: this.description});
-       debugger
-    //    this.nameSpan.textContent.add(...({title: this.title, description: this.description}))
-       
+       this.titleSpan ||= document.createElement('span');
+       this.titleSpan.classList.add(..."py-2 col-span-10".split(" "));
+       this.titleSpan.textContent = this.title
+
+       this.descriptionSpan ||= document.createElement('span');
+       this.descriptionSpan.classList.add(..."py-2 col-span-10".split(" "));
+       this.descriptionSpan.textContent = this.description
+
+       this.priceSpan ||= document.createElement('span');
+       this.priceSpan.classList.add(..."py-2 col-span-10".split(" "));
+       this.priceSpan.textContent = `$${this.price}`
+
+       this.urlSpan ||= document.createElement('span');
+       this.urlSpan.classList.add(..."py-2 col-span-10".split(" "));
+       this.urlSpan.textContent = this.url
 
        this.editLink ||= document.createElement('a');
        this.editLink.classList.add(..."my-1 text-right".split(" "));
@@ -241,7 +279,7 @@ class Toy {
        this.deleteLink.classList.add(..."my-1 text-right".split(" "));
        this.deleteLink.innerHTML = `<i class="fa fa-trash-alt"></i>`;
        
-       this.element.append(this.nameSpan, this.editLink, this.deleteLink)
+       this.element.append(this.titleSpan, this.editLink, this.deleteLink, this.descriptionSpan, this.priceSpan, this.urlSpan)
        return this.element;
 
    }
