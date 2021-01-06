@@ -11,7 +11,7 @@ document.addEventListener('click', function(e) {
 
     if(target.matches(".selectToyCategory")) {
         // console.log('selectToyCategory', target.dataset.toyCategoryId)
-        let toyCategory = ToyCategory.findById(target.dataset.toyCategory)
+        let toyCategory = ToyCategory.findById(target.dataset.toyCategoryId)
         toyCategory.show()
     }
 })

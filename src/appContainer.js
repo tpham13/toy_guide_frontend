@@ -69,6 +69,38 @@ class ToyCategory {
     static findById(id) {
         return this.collection.find(toyCategory => toyCategory.id == id);
     }
+    /* ToyCategory.show() => {
+        fetch the /toy_categories/:id route to get the toyCategory and its associated toys
+        use the response to create toy instances client side by invoking toy.loadByToyCategory(id, toysAttributes)
+        (In the server side, we can serialize our data to only grab the toy_category_id and the toy attributes that's included in the toy_category as well)
+    }
+    */
+    show() {
+        console.log('inside show')
+        return fetch(`http://localhost:3000/api/v1/toy_categories/${this.id}`, {
+            method: 'GET', 
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json"
+            }
+
+        }) 
+            .then(res => {
+                if(res.ok) {
+                    return res.json()
+                }  else {
+                    return res.text().then(error => Promise.reject(error))
+                }
+            })
+            .then(({id, toysAttributes}) => {
+                console.log('inside callback')
+                Toy.loadByToyCategory(id, toysAttributes)
+                this.render();
+                // debugger
+            })
+
+    }
+
     /*
     ToyCategory.create(formData) will make a fetch request to create a 
     new Toy Category in our database. 
@@ -107,7 +139,7 @@ class ToyCategory {
                 new FlashMessage({type: 'success', message: 'New toy category added successfully'})
 
                 return toyCategory;
-                debugger
+                // debugger
             })
             .catch(error => {
                 new FlashMessage({type: 'error', message: error});
@@ -151,15 +183,68 @@ class ToyCategory {
 }
 
 
-class Toys {
+class Toy {
     constructor(attributes) {
         let whitelist = ["id", "title", "description", "price", "url"]
-        whiltelist.forEach(attr => this[attr] = attributes[attr])
+        whitelist.forEach(attr => this[attr] = attributes[attr])
     }
 
     static container() {
         return this.c ||= document.querySelector("#toys")
     }
+
+    static collection() {
+        return this.col ||= {}
+    }
+    /* 
+    static loadByToyCategory(id, toysAttributes) => {
+        create toy instances using toysAttributes 
+        call render on each of the instances to build the associated DOM node
+        clear out the container() contents
+        append the rendered instances to the container
+    */
+    static loadByToyCategory(id, toysAttributes) {
+        
+        let toys = toysAttributes.map(toyAttributes => new Toy(toyAttributes));
+        this.collection()[id] = toys;
+        
+        let rendered = toys.map(toy => toy.render())
+        this.container().innerHTML = "";
+        
+        this.container().append(...rendered)
+        // debugger
+    }
+    
+    /*
+    li class="my-2 px-4 bg-green-200 grid grid-cols-12">
+          <a span class="py-1 col-span-10">Toy 1</a>
+          <a href="#" class="my-1 text-right"><i class="fa fa-pencil-alt"></i></a>
+          <a href="#" class="my-1 text-right"><i class="fa fa-trash-alt"></i></a>
+    </li>
+    */
+   render() {
+       this.element = document.createElement('li')
+       this.element.classList.add(..."my-2 px-4 bg-green-200 grid grid-cols-12".split(" "));
+       
+       this.nameSpan ||= document.createElement('span');
+       this.nameSpan.classList.add(..."py-1 col-span-10".split(" "));
+       this.nameSpan.textContent = ({title: this.title, description: this.description});
+       debugger
+    //    this.nameSpan.textContent.add(...({title: this.title, description: this.description}))
+       
+
+       this.editLink ||= document.createElement('a');
+       this.editLink.classList.add(..."my-1 text-right".split(" "));
+       this.editLink.innerHTML = `<i class="fa fa-pencil-alt"></i>`;
+
+       this.deleteLink ||= document.createElement('a');
+       this.deleteLink.classList.add(..."my-1 text-right".split(" "));
+       this.deleteLink.innerHTML = `<i class="fa fa-trash-alt"></i>`;
+       
+       this.element.append(this.nameSpan, this.editLink, this.deleteLink)
+       return this.element;
+
+   }
 }
 
 /*
