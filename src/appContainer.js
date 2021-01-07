@@ -20,14 +20,11 @@ class ToyCategory {
     static container() {
         return this.c ||= document.querySelector("#toyCategories")
     }
-    
-
     /*
     Category.all() will return a promise for all of the category objects that 
     we get from fetching to /categories. This collection will be stored locally 
     in Category.collection so we can reference it after the initial call to Category.all()
     */
-
    static all() {
     // console.log('.all() was called')
         return fetch("http://localhost:3000/api/v1/toy_categories", {
@@ -36,10 +33,10 @@ class ToyCategory {
                 "Content-Type": "application/json"
             }
         })
-    /*=> function is used here and the next .then is b/c we're defining function that we want to 
-    have the same context as the function static all(). If we console.log(this) inside this function 
-    this is reference to Category class
-    */
+        /*=> function is used here and the next .then is b/c we're defining function that we want to 
+        have the same context as the function static all(). If we console.log(this) inside this function 
+        this is reference to Category class
+        */
         .then(res => {
             if(res.ok) {
                 return res.json() //returns a promise for body content parsed as JSON
@@ -98,11 +95,10 @@ class ToyCategory {
                 // debugger
             })
             .catch(err => {
-                return res.text().then(err => Promise.reject())
+                return res.text().then(err => Promise.reject(err))
             })
 
     }
-
     /*
     ToyCategory.create(formData) will make a fetch request to create a 
     new Toy Category in our database. 
@@ -111,7 +107,6 @@ class ToyCategory {
     Finally it will add that DOM node to ToyCategory.container(). 
     It will return a promise for ToyCategory object that was created
     */
-
     static create(formData) {
         //when sending a post request, it takes in a 2nd argument
         return fetch("http://localhost:3000/api/v1/toy_categories", {
@@ -148,7 +143,6 @@ class ToyCategory {
             })
     }
 
-
     /*
     toyCategory.render() will create an li element and assign it to this.element. 
     It will then fill the element with contents looking like below html:
@@ -163,7 +157,7 @@ class ToyCategory {
         // console.log('in render')
         //we use ||= here b/c render will get call more than once
         this.element ||= document.createElement('li');
-        this.element.classList.add(..."my-2 px-4 bg-green-200 grid grid-cols-12 sm:grid-cols-6".split(" "));
+        this.element.classList.add(..."my-2 px-4 bg-teal-200 grid grid-cols-12 sm:grid-cols-6".split(" "));
         
         this.nameLink ||= document.createElement('a');
         this.nameLink.classList.add(..."py-4 col-span-10 sm:col-span-4 selectToyCategory".split(" "));
@@ -188,7 +182,7 @@ class ToyCategory {
 
 class Toy {
     constructor(attributes) {
-        let whitelist = ["id", "title", "description", "price", "url"]
+        let whitelist = ["id", "title", "description", "price", "url", "toy_category_id"]
         whitelist.forEach(attr => this[attr] = attributes[attr])
     }
 
@@ -216,24 +210,26 @@ class Toy {
         
         this.container().append(...rendered)
         // debugger
-    }
+    } 
     /*
     Toy.create(formData) => {
         will make a fetch request using the form data to create a new task instance.
         if the reponse is okay, we'll parse it as JSON and return that 
-        we'll use the data we parsed to create a new task instance, store it render it and add it to DOM at container().
+        we'll use the data we parsed to create a new task instance, store it in collection() render it and add it to DOM at container().
         if the reponse is not OK we'll return a rejected promise for the error and catch it with a callback which will display it in a FlashMessage.
     }
      */
     static create(formData) {
-        if(!Toy.toyCategoryId) {
-            debugger
+        console.log('in toy create')
+        if(!Toy.toy_category_id) {
             return new FlashMessage({type: 'error', message: "Please select a category before adding a new toy"});
         } else {
-            formData.toy_category_id = ToyCategory.toyCategoryId
+            formData.toy_category_id = Toy.toy_category_id;
+            debugger
         }
+        
         console.log(formData);
-        // return fetch('/toys', {
+        // return fetch('http://localhost:3000/api/v1/toys', {
         //     method: 'POST',
         //     headers: {
         //         "Accept": "application/json",
@@ -243,6 +239,23 @@ class Toy {
         //         toy: formData
         //     })
         // })
+        //     .then(res => {
+        //         if(res.ok) {
+        //             return res.json()
+        //         } else {
+        //             return res.text().then(err => Promise.reject(error))
+        //         }
+        //     })
+        //     .then(toyData => {
+        //         let toy = new Toy(toyData);
+        //         debugger
+        //         this.collection()[Toy.toy_category_id].push(task);
+        //         this.container().append(task.render())
+        //     })
+        //     .catch(error => {
+        //         return new FlashMessage({type: 'error', message: error})
+        //     })
+        
     }
     /*
     li class="my-2 px-4 bg-green-200 grid grid-cols-12">
@@ -253,7 +266,7 @@ class Toy {
     */
    render() {
        this.element = document.createElement('li')
-       this.element.classList.add(..."my-2 px-4 bg-green-200 grid grid-cols-12".split(" "));
+       this.element.classList.add(..."my-2 px-4 bg-purple-200 grid grid-cols-12".split(" "));
        
        this.titleSpan ||= document.createElement('span');
        this.titleSpan.classList.add(..."py-2 col-span-10".split(" "));

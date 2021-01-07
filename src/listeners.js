@@ -29,16 +29,29 @@ document.addEventListener('submit', function(e) {
             formData[input.name] = input.value;
         })
         
-        ToyCategory.create(formData);
+        ToyCategory.create(formData)
+        //b/c create return a promise, we can change on a call back here to reset the form after submission 
+            .then(() => {
+                target.querySelectorAll('input').forEach(function(input) {
+                    input.value = "";
+                })
+            });
+
         // debugger
-    } else if(target.matches('#newToyForm')) {
-      e.preventDefault();
-      let formData = {};
-      target.querySelectorAll('input').forEach(function(input) {
-          formData[input.title] = input.value;
-      });
-      Toy.create(formData);
-    }
+        } else if(target.matches('#newToyForm')) {
+        e.preventDefault();
+        let formData = {};
+        target.querySelectorAll('input').forEach(function(input) {
+            formData[input.title] = input.value;
+        });
+        Toy.create(formData)
+        //b/c create return a promise, we can change on a call back here to reset the form after submission 
+            // .then(() => {
+            //     target.querySelectorAll('input').forEach(function(input) {
+            //         input.value = "";
+            //     })
+            // });
+        }
 })
 
 
