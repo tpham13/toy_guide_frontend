@@ -5,8 +5,11 @@ class ToyCategory {
     new Category{id: 1, name: "Birth to One"}
     */
    constructor(attributes) {
-       let whitelist = ["id", "name", "active"]
-       whitelist.forEach(attr => this[attr] = attributes[attr])
+       console.log(attributes)
+       this.id = attributes.id
+       this.name = attributes.name
+    //    let whitelist = ["id", "name"]
+    //    whitelist.forEach(attr => this[attr] = attributes[attr])
    }
 
    /*
@@ -47,7 +50,7 @@ class ToyCategory {
         .then(toyCategoryArray => {
             /*we want to store the new collection that we created inside the class variable this.collection
             so we can access/call it later */
-            this.collection = toyCategoryArray.map(attrs => new ToyCategory(attrs))
+            this.collection = toyCategoryArray.map(attrs => new ToyCategory(attrs));
             let renderedToyCategories = this.collection.map(toyCategory => toyCategory.render())
             //spread operator is used here to render separated element instead of rendering an array
             this.container().append(...renderedToyCategories);
@@ -130,7 +133,9 @@ class ToyCategory {
                 }
             })
             .then(toyCategoryAttributes => {
-                let toyCategory = new ToyCategory(toyCategoryAttributes);
+                // debugger
+                let toyCategory = new ToyCategory(toyCategoryAttributes.data.attributes);
+                debugger
                 this.collection.push(toyCategory);
                 this.container().appendChild(toyCategory.render());
                 new FlashMessage({type: 'success', message: 'New toy category added successfully'})
@@ -153,7 +158,7 @@ class ToyCategory {
         </li>
     */
     render(){
-        
+        // debugger
         // console.log('in render')
         //we use ||= here b/c render will get call more than once
         this.element ||= document.createElement('li');
@@ -220,6 +225,7 @@ class Toy {
     }
      */
     static create(formData) {
+        //class vs. instance
         console.log('in toy create')
         if(!Toy.toy_category_id) {
             return new FlashMessage({type: 'error', message: "Please select a category before adding a new toy"});
