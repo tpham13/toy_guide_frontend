@@ -65,8 +65,9 @@ class ToyCategory {
     }
     /*
     ToyCategory.findById(id) => accepts an id as an argument and returns the todoList matching that id.
-    */
+    */ 
     static findById(id) {
+        // double == here will return a string 
         return this.collection.find(toyCategory => toyCategory.id == id);
     }
     /* ToyCategory.show() => {
@@ -94,6 +95,7 @@ class ToyCategory {
             .then(({id, toysAttributes}) => {
                 console.log('inside callback')
                 Toy.loadByToyCategory(id, toysAttributes)
+                //this is now the object that show() just called on
                 this.render();
                 // debugger
             })
@@ -167,6 +169,9 @@ class ToyCategory {
         this.nameLink ||= document.createElement('a');
         this.nameLink.classList.add(..."py-4 col-span-10 sm:col-span-4 selectToyCategory".split(" "));
         this.nameLink.textContent = this.name;
+        /* dataset is adding a data attribute (data-toy-category-id) to the nameLink 'a' tag 
+        and store the toyCategory id (is the value of data-toy-category-id) this html tag*/ 
+        
         this.nameLink.dataset.toyCategoryId = this.id;
 
         
@@ -206,10 +211,10 @@ class Toy {
         append the rendered instances to the container
     */
     static loadByToyCategory(id, toysAttributes) {
-        
+        Toy.toy_category_id = id;
         let toys = toysAttributes.map(toyAttributes => new Toy(toyAttributes));
         this.collection()[id] = toys;
-        
+        console.log(this.collection()[id])
         let rendered = toys.map(toy => toy.render())
         this.container().innerHTML = "";
         
@@ -231,36 +236,36 @@ class Toy {
             return new FlashMessage({type: 'error', message: "Please select a category before adding a new toy"});
         } else {
             formData.toy_category_id = Toy.toy_category_id;
-            debugger
+            // debugger
         }
         
-        console.log(formData);
-        // return fetch('http://localhost:3000/api/v1/toys', {
-        //     method: 'POST',
-        //     headers: {
-        //         "Accept": "application/json",
-        //         "Content-Type": "application/json"
-        //     }, 
-        //     body: JSON.stringify( {
-        //         toy: formData
-        //     })
-        // })
-        //     .then(res => {
-        //         if(res.ok) {
-        //             return res.json()
-        //         } else {
-        //             return res.text().then(err => Promise.reject(error))
-        //         }
-        //     })
-        //     .then(toyData => {
-        //         let toy = new Toy(toyData);
-        //         debugger
-        //         this.collection()[Toy.toy_category_id].push(task);
-        //         this.container().append(task.render())
-        //     })
-        //     .catch(error => {
-        //         return new FlashMessage({type: 'error', message: error})
-        //     })
+        // console.log(formData);
+        return fetch('http://localhost:3000/api/v1/toys', {
+            method: 'POST',
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json"
+            }, 
+            body: JSON.stringify( {
+                toy: formData
+            })
+        })
+            .then(res => {
+                if(res.ok) {
+                    return res.json()
+                } else {
+                    return res.text().then(err => Promise.reject(error))
+                }
+            })
+            .then(toyData => {
+                let toy = new Toy(toyData);
+                // debugger
+                this.collection()[Toy.toy_category_id].push(task);
+                this.container().append(task.render())
+            })
+            .catch(error => {
+                return new FlashMessage({type: 'error', message: error})
+            })
         
     }
     /*
@@ -292,11 +297,11 @@ class Toy {
 
        this.editLink ||= document.createElement('a');
        this.editLink.classList.add(..."my-1 text-right".split(" "));
-       this.editLink.innerHTML = `<i class="fa fa-pencil-alt"></i>`;
+       this.editLink.innerHTML = `<i class="p-4 fa fa-pencil-alt"></i>`;
 
        this.deleteLink ||= document.createElement('a');
        this.deleteLink.classList.add(..."my-1 text-right".split(" "));
-       this.deleteLink.innerHTML = `<i class="fa fa-trash-alt"></i>`;
+       this.deleteLink.innerHTML = `<i class="p-4  fa fa-trash-alt"></i>`;
        
        this.element.append(this.titleSpan, this.editLink, this.deleteLink, this.descriptionSpan, this.priceSpan, this.urlSpan)
        return this.element;

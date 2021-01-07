@@ -7,9 +7,11 @@ document.addEventListener('DOMContentLoaded', function(e) {
 })
 
 document.addEventListener('click', function(e) {
+    //target will be the anchor tag ->nameLink: selectToyCategory which is an attribute of the toyCategory
     let target = e.target;
 
     if(target.matches(".selectToyCategory")) {
+        //to assigning data attribute in JS, you need to use 'dataset' property
         // console.log('selectToyCategory', target.dataset.toyCategoryId)
         let toyCategory = ToyCategory.findById(target.dataset.toyCategoryId)
         toyCategory.show()
