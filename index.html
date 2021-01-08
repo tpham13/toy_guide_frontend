@@ -13,7 +13,7 @@
     <section id="categoriesContainer" class="px-4 bg-blue-100 sm:min-h-screen rounded-md shadow">
       <h1 class="text-2xl semibold border-b-4 border-blue">Toy Categories</h1>
       <form id="newToyCategory" class="clearfix mt-4">
-        <input type="text" name="name" class="block float-left w-10/12 p-3" placeholder="newToyCategory" />
+        <input type="text" title="name" class="block float-left w-10/12 p-3" placeholder="newToyCategory" />
         <button type="submit" class="block float-left w-2/12"><i class="fa fa-plus p-4 z--1 bg-green-400"></i></button>
       </form>
       <ul id="toyCategories" class="list-none">
@@ -22,10 +22,15 @@
     <section id="toysContainer" class="px-4 bg-blue-100 sm:min-h-screen col-span-2 rounded-md shadow">
       <h1 class="text-2xl semibold border-b-4 border-blue">Toys</h1>
       <form id="newToyForm" class="clearfix mt-4">
-        <input type="text" class="block float-left w-11/12 p-3" name="name" placeholder="New Toy" />
+        <h3 class="text-2xl semibold border-b-4 border-blue"> Add a New Toy </h3>
+        <input type="text" class="block float-left w-11/12 p-3" title="title" placeholder="Title" />
+        <input type="text" class="block float-left w-11/12 p-3" name="description" placeholder="Description" />
+        <input type="text" class="block float-left w-11/12 p-3" name="price" placeholder="Price" />
+        <input type="url" class="block float-left w-11/12 p-3" name="url" placeholder="Link to buy" />
         <button type="submit" class="block float-left w-1/12 px-4"><i class="fa fa-plus p-4 z--1 bg-green-400"></i></button>
       </form>
       <ul id="toys" class="toyCategory-none">
+        
         <li> Select a category to see toys</li>
       </ul>
     </section>

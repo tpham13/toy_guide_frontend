@@ -235,11 +235,13 @@ class Toy {
         if(!Toy.toy_category_id) {
             return new FlashMessage({type: 'error', message: "Please select a category before adding a new toy"});
         } else {
+            //add a key:value pairs to the formData object of the toy_category_id exist
+            //Toy.toy_category_id is from the loadByToyCategory method
             formData.toy_category_id = Toy.toy_category_id;
             // debugger
         }
         
-        // console.log(formData);
+        console.log(formData);
         return fetch('http://localhost:3000/api/v1/toys', {
             method: 'POST',
             headers: {
@@ -259,9 +261,10 @@ class Toy {
             })
             .then(toyData => {
                 let toy = new Toy(toyData);
-                // debugger
-                this.collection()[Toy.toy_category_id].push(task);
-                this.container().append(task.render())
+                debugger
+                this.collection()[Toy.toy_category_id].push(toy);
+                this.container().append(toy.render())
+                return toy;
             })
             .catch(error => {
                 return new FlashMessage({type: 'error', message: error})

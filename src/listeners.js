@@ -32,27 +32,33 @@ document.addEventListener('submit', function(e) {
         })
         
         ToyCategory.create(formData)
-        //b/c create return a promise, we can change on a call back here to reset the form after submission 
+        //b/c create return a promise, we can chain on a call back here to reset the form after submission 
             .then(() => {
                 target.querySelectorAll('input').forEach(function(input) {
                     input.value = "";
                 })
             });
-
-        // debugger
         } else if(target.matches('#newToyForm')) {
         e.preventDefault();
         let formData = {};
         target.querySelectorAll('input').forEach(function(input) {
-            formData[input.title] = input.value;
+            formData[input.title] = input.title;
+            formData[input.description] = parseFloat(input.value)
+            formData[input.price] = input.value
+            formData[input.url] = input.value
+         // const titleInput = document.querySelector("#input-title").value
+//         const descriptionInput = document.querySelector("#input-description").value
+//         const priceInput = parseFloat(document.querySelector("#input-price").value)
+//         const urlInput = document.querySelector("#input-url").value
+//         const categoryId = parseInt(document.querySelector("#categories").value)
         });
         Toy.create(formData)
-        //b/c create return a promise, we can change on a call back here to reset the form after submission 
-            // .then(() => {
-            //     target.querySelectorAll('input').forEach(function(input) {
-            //         input.value = "";
-            //     })
-            // });
+        // b/c create return a promise, we can change on a call back here to reset the form after submission 
+            .then(() => {
+                target.querySelectorAll('input').forEach(function(input) {
+                    input.value = "";
+                })
+            });
         }
 })
 
