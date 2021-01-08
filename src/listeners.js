@@ -25,7 +25,6 @@ document.addEventListener('submit', function(e) {
         //the form doesn't have an action attribute, so it will refresh
         //what does preventDefault do to a form?
         e.preventDefault();
-        // console.log('submitted newToyCategory')
         let formData = {}
         //the target of the event is always going to be the form that we submitted
         target.querySelectorAll('input').forEach(function(input) {
@@ -48,8 +47,7 @@ document.addEventListener('submit', function(e) {
          formData.price = target.querySelector("#input-price").value
          formData.url = target.querySelector("#input-url").value
 
-        // });
-        Toy.create(formData)
+         Toy.create(formData)
         // b/c create return a promise, we can change on a call back here to reset the form after submission 
             .then(() => {
                 target.querySelectorAll('input').forEach(function(input) {
