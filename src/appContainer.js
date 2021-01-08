@@ -230,10 +230,10 @@ class Toy {
     }
      */
     static create(formData) {
-        //class vs. instance
+        
         console.log('in toy create')
         if(!Toy.toy_category_id) {
-            return new FlashMessage({type: 'error', message: "Please select a category before adding a new toy"});
+            return Promise.reject().catch(() => new FlashMessage({type: 'error', message: "Please select a category before adding a new toy"}));
         } else {
             //add a key:value pairs to the formData object of the toy_category_id exist
             //Toy.toy_category_id is from the loadByToyCategory method

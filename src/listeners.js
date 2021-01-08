@@ -42,10 +42,10 @@ document.addEventListener('submit', function(e) {
         e.preventDefault();
         let formData = {};
         target.querySelectorAll('input').forEach(function(input) {
-            formData[input.title] = input.title;
-            formData[input.description] = parseFloat(input.value)
-            formData[input.price] = input.value
-            formData[input.url] = input.value
+            formData[input.title] = input.value;
+            formData[input.description] = input.value
+            // formData[input.price] = parseFloat(input.value)
+            // formData[input.url] = input.value
          // const titleInput = document.querySelector("#input-title").value
 //         const descriptionInput = document.querySelector("#input-description").value
 //         const priceInput = parseFloat(document.querySelector("#input-price").value)
