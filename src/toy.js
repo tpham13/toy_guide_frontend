@@ -106,15 +106,15 @@ class Toy {
        this.urlSpan.classList.add(..."py-2 col-span-10".split(" "));
        this.urlSpan.textContent = this.url
 
-       this.editLink ||= document.createElement('a');
-       this.editLink.classList.add(..."my-1 text-right".split(" "));
-       this.editLink.innerHTML = `<i class="p-4 fa fa-pencil-alt"></i>`;
+    //    this.editLink ||= document.createElement('a');
+    //    this.editLink.classList.add(..."my-1 text-right".split(" "));
+    //    this.editLink.innerHTML = `<i class="p-4 fa fa-pencil-alt"></i>`;
 
-       this.deleteLink ||= document.createElement('a');
-       this.deleteLink.classList.add(..."my-1 text-right".split(" "));
-       this.deleteLink.innerHTML = `<i class="p-4  fa fa-trash-alt"></i>`;
+    //    this.deleteLink ||= document.createElement('a');
+    //    this.deleteLink.classList.add(..."my-1 text-right".split(" "));
+    //    this.deleteLink.innerHTML = `<i class="p-4  fa fa-trash-alt"></i>`;
        
-       this.element.append(this.titleSpan, this.editLink, this.deleteLink, this.descriptionSpan, this.priceSpan, this.urlSpan)
+       this.element.append(this.titleSpan, this.descriptionSpan, this.priceSpan, this.urlSpan)
        return this.element;
 
    }

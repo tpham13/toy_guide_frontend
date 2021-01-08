@@ -165,15 +165,15 @@ class ToyCategory {
         
         this.nameLink.dataset.toyCategoryId = this.id;
 
-        this.editLink ||= document.createElement('a');
-        this.editLink.classList.add(..."my-4 text-right".split(" "));
-        this.editLink.innerHTML = `<i class="fa fa-pencil-alt"></i>`;
+        // this.editLink ||= document.createElement('a');
+        // this.editLink.classList.add(..."my-4 text-right".split(" "));
+        // this.editLink.innerHTML = `<i class="fa fa-pencil-alt"></i>`;
 
-        this.deleteLink ||= document.createElement('a');
-        this.deleteLink.classList.add(..."my-4 text-right".split(" "));
-        this.deleteLink.innerHTML = `<i class="fa fa-trash-alt"></i>`;
+        // this.deleteLink ||= document.createElement('a');
+        // this.deleteLink.classList.add(..."my-4 text-right".split(" "));
+        // this.deleteLink.innerHTML = `<i class="fa fa-trash-alt"></i>`;
     
-        this.element.append(this.nameLink, this.editLink, this.deleteLink);
+        this.element.append(this.nameLink);
         return this.element;
     }
 
