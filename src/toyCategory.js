@@ -11,11 +11,6 @@ class ToyCategory {
    }
    /*
    Category.container() returns a reference to this DOM node:
-    <section id="categoriesContainer" class="px-4 bg-blue-100 sm:min-h-screen rounded-md shadow">
-        <h1 class="text-2xl semibold border-b-4 border-blue">Toy Categories</h1>
-        <ul id="toy categories" class="list-none">
-        </ul>
-    </section>
     */
     static container() {
         return this.c ||= document.querySelector("#toyCategories")
@@ -46,8 +41,20 @@ class ToyCategory {
         .then(toyCategoryArray => {
             /*we want to store the new collection that we created inside the class variable this.collection
             so we can access/call it later */
+            
             this.collection = toyCategoryArray.map(attrs => new ToyCategory(attrs));
-            let renderedToyCategories = this.collection.map(toyCategory => toyCategory.render())
+            // console.log(this.collection)
+            this.collection.sort(function(a, b){
+                let nameA=a.name, nameB=b.name;
+                if (nameA < nameB) //sort string ascending
+                 return -1;
+                if (nameA > nameB)
+                 return 1;
+                return 0; //default return value (no sorting)
+               });
+           
+            let renderedToyCategories = this.collection.map(toyCategory => toyCategory.render()) 
+
             //spread operator is used here to render separated element instead of rendering an array
             this.container().append(...renderedToyCategories);
             // console.log(this)
@@ -146,11 +153,6 @@ class ToyCategory {
     /*
     toyCategory.render() will create an li element and assign it to this.element. 
     It will then fill the element with contents looking like below html:
-    <li class="my-2 px-4 bg-green-200 grid grid-cols-12 sm:grid-cols-6">
-          <a href="#" class="py-4 col-span-10 sm:col-span-4">Category 1</a>
-          <a href="#" class="my-4 text-right"><i class="fa fa-pencil-alt"></i></a>
-          <a href="#" class="my-4 text-right"><i class="fa fa-trash-alt"></i></a>
-        </li>
     */
     render(){
         //we use ||= here b/c render will get call more than once

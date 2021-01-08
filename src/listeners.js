@@ -1,10 +1,14 @@
 console.log('in listeners')
+//console.dir() is the way to see all the properties of a specified JavaScript object
 document.addEventListener('click', function(e) {
     console.dir(e.target)
 })
 
 document.addEventListener('DOMContentLoaded', function(e) {
-     ToyCategory.all();
+     const category = ToyCategory.all();
+    //  category.sort(ToyCategory.name);
+    //  console.log(category)
+    //  return category
 })
 
 document.addEventListener('click', function(e) {
